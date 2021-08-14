@@ -50,7 +50,7 @@ function Home() {
       <div className="flex flex-col justify-center items-center h-screen w-full bg-gray-200">
         <p className="capitalize">Hello, {localStorage.getItem("name")}</p>
         {qusIndex < 10 ? (
-          <div className="w-full sm:w-96 bg-green-50 flex flex-col p-5 rounded-md shadow">
+          <div className="w-full sm:w-96 bg-white flex flex-col p-5 rounded-md shadow">
             {qns && (
               <div className="p-5 space-y-3">
                 <div className="text-xl">{qns.ques}</div>
