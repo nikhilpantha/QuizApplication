@@ -5,15 +5,14 @@ import * as Yup from "yup";
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
-    .min(2, "Too Short!")
+    .min(5, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(1, "Too week!").required("Required"),
+  password: Yup.string().min(6, "Too week!").required("Required"),
 });
 
 const SignUp = () => {
-  let usedEmail = true;
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -47,44 +46,59 @@ const SignUp = () => {
                 name="name"
                 type="text"
                 placeholder="Name"
-                className={`border h-10 w-full rounded-md px-3 ${
+                className={`border h-10 w-full rounded-md px-3 focus:outline-none ${
                   formik.errors.name && formik.touched.name && "border-red-400"
                 }`}
                 onChange={formik.handleChange}
                 value={formik.values.name}
               />
               {formik.errors.name && formik.touched.name ? (
-                <div>{formik.errors.name}</div>
+                <div className="text-sm text-red-600 ml-2">
+                  {formik.errors.name}
+                </div>
               ) : null}
             </div>
-            <input
-              name="email"
-              type="email"
-              placeholder="Email"
-              className="border h-10 w-full rounded-md px-3"
-              onChange={formik.handleChange}
-              value={formik.values.email}
-            />
-            {usedEmail ? (
-              <>
-                {formik.errors.email && formik.touched.email ? (
-                  <div>{formik.errors.email}</div>
-                ) : null}
-              </>
-            ) : (
-              <div>email already used</div>
-            )}
-            <input
-              name="password"
-              type="password"
-              placeholder="Password"
-              className="border h-10 w-full rounded-md px-3"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-            />
-            {formik.errors.password && formik.touched.password ? (
-              <div>{formik.errors.password}</div>
-            ) : null}
+
+            <div>
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                className={`border h-10 w-full rounded-md px-3 focus:outline-none ${
+                  formik.errors.email &&
+                  formik.touched.email &&
+                  "border-red-400"
+                }`}
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+              {formik.errors.email && formik.touched.email ? (
+                <div className="text-sm text-red-600 ml-2">
+                  {formik.errors.email}
+                </div>
+              ) : null}
+            </div>
+
+            <div>
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                className={`border h-10 w-full rounded-md px-3 focus:outline-none ${
+                  formik.errors.password &&
+                  formik.touched.password &&
+                  "border-red-400"
+                }`}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+              />
+              {formik.errors.password && formik.touched.password ? (
+                <div className="text-sm text-red-600 ml-2">
+                  {formik.errors.password}
+                </div>
+              ) : null}
+            </div>
+
             <button
               type="submit"
               className="w-full font-semibold p-3 text-white bg-blue-500 rounded-md"
@@ -94,9 +108,8 @@ const SignUp = () => {
           </Form>
         </FormikProvider>
         <div>
-          have a account?{" "}
+          have a account ?{" "}
           <a href="/login" className="text-blue-500">
-            {" "}
             Log In
           </a>
         </div>
