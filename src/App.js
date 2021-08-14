@@ -1,23 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import Login from "./components/Login";
+import SingUp from "./components/SignUp";
+import Home from "./components/Home";
+import { Fragment, useEffect, useState } from "react";
 
 function App() {
+  const [isAppReady, setIsAppReady] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    const localStorageValue = localStorage.getItem("loggedIn");
+
+    if (localStorageValue) {
+      history.push("/");
+      setLoggedIn(true);
+    } else {
+      if (location.pathname !== "/signUp") {
+        history.push("/login");
+      }
+      setLoggedIn(false);
+    }
+
+    setIsAppReady(true);
+  }, [location.pathname]);
+
+  if (!isAppReady) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Switch>
+        {loggedIn ? (
+          <Route exact path="/">
+            <Home />
+          </Route>
+        ) : (
+          <Fragment>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signUp">
+              <SingUp />
+            </Route>
+          </Fragment>
+        )}
+      </Switch>
     </div>
   );
 }
