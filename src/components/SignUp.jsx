@@ -1,16 +1,7 @@
 import React from "react";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-
-const SignupSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(5, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(6, "Too week!").required("Required"),
-});
+import { signupSchema } from "../validationSchema";
 
 const SignUp = () => {
   const history = useHistory();
@@ -20,7 +11,8 @@ const SignUp = () => {
       email: "",
       password: "",
     },
-    validationSchema: SignupSchema,
+
+    validationSchema: signupSchema,
 
     onSubmit: (values) => {
       window.localStorage.setItem("loggedIn", "yes");

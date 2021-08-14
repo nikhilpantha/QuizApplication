@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import SingUp from "./components/SignUp";
 import Home from "./components/Home";
 import { Fragment, useEffect, useState } from "react";
+import Loader from "react-loader-spinner";
 
 function App() {
   const [isAppReady, setIsAppReady] = useState(false);
@@ -29,7 +30,11 @@ function App() {
   }, [location.pathname]);
 
   if (!isAppReady) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <Loader type="TailSpin" color="#000000" height={100} width={100} />
+      </div>
+    );
   }
 
   return (

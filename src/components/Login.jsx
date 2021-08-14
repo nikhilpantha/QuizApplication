@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-
-const SignupSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(1, "Too week!").required("Required"),
-});
+import { loginSchema } from "../validationSchema";
 
 const Login = () => {
   const history = useHistory();
@@ -17,7 +12,9 @@ const Login = () => {
       email: "",
       password: "",
     },
-    validationSchema: SignupSchema,
+
+    validationSchema: loginSchema,
+
     onSubmit: (values) => {
       const previousUser = window.localStorage.getItem("email");
       const UserPassword = window.localStorage.getItem("password");

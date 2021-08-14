@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Score from "./Score";
-import { question } from "./Question";
+import { question } from "../data/question";
 
 function Home() {
   const [questionArray, setQuestionArray] = useState(question);
