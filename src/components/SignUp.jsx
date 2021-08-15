@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import { signupSchema } from "../validationSchema";
 
 const SignUp = () => {
+  const [usedEmail, setUsedEmail] = useState(false);
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -15,11 +16,19 @@ const SignUp = () => {
     validationSchema: signupSchema,
 
     onSubmit: (values) => {
-      window.localStorage.setItem("loggedIn", "yes");
-      window.localStorage.setItem("email", values.email);
-      window.localStorage.setItem("name", values.name);
-      window.localStorage.setItem("password", values.password);
-      history.push("/");
+      const userlogedInUser = window.localStorage.getItem(
+        "email",
+        values.email
+      );
+      if (userlogedInUser === values.email) {
+        setUsedEmail(true);
+      } else {
+        window.localStorage.setItem("loggedIn", "yes");
+        window.localStorage.setItem("email", values.email);
+        window.localStorage.setItem("name", values.name);
+        window.localStorage.setItem("password", values.password);
+        history.push("/");
+      }
     },
   });
 
@@ -61,7 +70,10 @@ const SignUp = () => {
                   formik.touched.email &&
                   "border-red-400"
                 }`}
-                onChange={formik.handleChange}
+                onChange={(event) => {
+                  formik.setFieldValue("email", event.target.value);
+                  setUsedEmail(false);
+                }}
                 value={formik.values.email}
               />
               {formik.errors.email && formik.touched.email ? (
@@ -90,7 +102,11 @@ const SignUp = () => {
                 </div>
               ) : null}
             </div>
-
+            {usedEmail && (
+              <div className="text-sm text-red-600 ml-2">
+                Email already used
+              </div>
+            )}
             <button
               type="submit"
               className="w-full font-semibold p-3 text-white bg-blue-500 rounded-md"
