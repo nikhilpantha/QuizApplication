@@ -41,7 +41,7 @@ function Home() {
     <>
       <button
         type="button"
-        className="absolute right-5 top-5 p-3 font-semibold bg-red-600 text-white rounded-md"
+        className="absolute right-3 top-3 sm:right-5 sm:top-5 p-2 sm:p-3 sm:font-semibold bg-red-600 text-white rounded-md"
         onClick={() => loggout()}
       >
         Log Out
